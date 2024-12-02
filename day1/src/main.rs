@@ -1,7 +1,7 @@
-use std::collections::HashMap;
 use anyhow::anyhow;
+use std::collections::HashMap;
 use std::fs::File;
-use std::io::{BufRead, BufReader, Cursor, Read, Seek};
+use std::io::{BufRead, BufReader, Read, Seek};
 
 fn main() -> Result<(), anyhow::Error> {
     let mut f = File::open("./input.txt")?;
@@ -16,7 +16,7 @@ fn main() -> Result<(), anyhow::Error> {
     Ok(())
 }
 
-/// Find the similarity score between the two lists as read from the input.
+/// To solve part 1, find the similarity score between the two lists as read from the input.
 /// 
 /// Using an ad-hoc approach, collect the first and second elements of each line into two separate
 /// vectors. Sort the vectors and then zip them together to calculate the absolute difference
@@ -42,6 +42,11 @@ fn similarity_score_by_diff(reader: &mut dyn Read) -> Result<isize, anyhow::Erro
     Ok(diff)
 }
 
+/// To solve part 2, find the similarity score between the two lists as read from the input.
+/// 
+/// For this approach, count the population of each number in the right list. Then, sum each
+/// number in the left list times the count of that number in the right list.
+/// 
 fn similarity_score_by_counts(mut reader: &mut dyn Read) -> Result<isize, anyhow::Error> {
     let mut lefts = Vec::new();
     let mut right_counts = HashMap::new();
@@ -81,7 +86,7 @@ fn entries_from_reader(reader: impl Read) -> impl Iterator<Item = Result<(isize,
 #[cfg(test)]
 mod tests {
     use crate::{similarity_score_by_counts, similarity_score_by_diff};
-    
+
     #[test]
     fn test_similarity_score_by_diff_using_example() {
         let input = "3   4\n\
